@@ -94,7 +94,7 @@ void setup() {
 
   
   #ifdef MODE_SERIAL
-  Serial.begin(9600);
+  Serial.begin(115200);
   #endif
 
   #ifdef MODE_MIDI
@@ -223,17 +223,34 @@ void loop() {
       newX = (uint16_t)(oneTo14 * (quat.x + 1));
       newY = (uint16_t)(oneTo14 * (quat.y + 1));
       newZ = (uint16_t)(oneTo14 * (quat.z + 1));
+         
       
     #ifdef MODE_SERIAL
     if (newW != lastW || newX != lastX || newY != lastY || newZ != lastZ ) {
-      Serial.print(newW); 
-      Serial.print(" ");
-      Serial.print(newX); 
-      Serial.print(" ");
-      Serial.print(newY);
-      Serial.print(" ");
-      Serial.print(newZ);
-      Serial.println();
+      
+      
+      char imu_data[64];
+      char qW[8], qX[8], qY[8], qZ[8];
+      
+      dtostrf(quat.w, 7, 4, qW);
+      dtostrf(quat.x, 7, 4, qX);
+      dtostrf(quat.y, 7, 4, qY);
+      dtostrf(quat.z, 7, 4, qZ); 
+      
+      
+      strcpy(imu_data,qW);
+      strcat(imu_data,",");
+      strcat(imu_data,qX);
+      strcat(imu_data,",");
+      strcat(imu_data,qY);
+      strcat(imu_data,",");
+      strcat(imu_data,qZ);
+
+      Serial.write(imu_data);
+      Serial.write(";");
+
+      //Serial.println();
+      
     }
     #endif
     
