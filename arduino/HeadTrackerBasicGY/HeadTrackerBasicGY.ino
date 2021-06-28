@@ -252,14 +252,14 @@ void loop() {
       
       dtostrf(quat.w, 7, 4, qW);
       dtostrf(quat.x, 7, 4, qX);
-      dtostrf(quat.y, 7, 4, qY);
+      dtostrf((quat.y * -1.0), 7, 4, qY);
       dtostrf(quat.z, 7, 4, qZ); 
           
       strcpy(imu_data,qW);
       strcat(imu_data,",");
-      strcat(imu_data,qX);
-      strcat(imu_data,",");
       strcat(imu_data,qY);
+      strcat(imu_data,",");
+      strcat(imu_data,qX);
       strcat(imu_data,",");
       strcat(imu_data,qZ);
 
