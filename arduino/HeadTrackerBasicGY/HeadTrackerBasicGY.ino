@@ -94,7 +94,7 @@ void setup() {
 
   
   #ifdef MODE_SERIAL
-  Serial.begin(9600);
+  Serial.begin(115200);
   #endif
 
   #ifdef MODE_MIDI
@@ -120,16 +120,17 @@ void setup() {
   // make sure it worked (returns 0 if so)
   if (devStatus == 0) {
     // turn on the DMP, now that it's ready
-    Serial.println(F("Enabling DMP..."));
+    delay(5);
+    // Serial.println(F("Enabling DMP..."));
     mpu.setDMPEnabled(true);
 
     // enable Arduino interrupt detection
-    Serial.println(F("Enabling interrupt detection (Arduino external interrupt 0)..."));
+    //Serial.println(F("Enabling interrupt detection (Arduino external interrupt 0)..."));
     attachInterrupt(digitalPinToInterrupt(2), dmpDataReady, RISING);
     mpuIntStatus = mpu.getIntStatus();
 
     // set our DMP Ready flag so the main loop() function knows it's okay to use it
-    Serial.println(F("DMP ready! Waiting for first interrupt..."));
+    //Serial.println(F("DMP ready! Waiting for first interrupt..."));
     dmpReady = true;
     // get expected DMP packet size for later comparison
     packetSize = mpu.dmpGetFIFOPacketSize();
