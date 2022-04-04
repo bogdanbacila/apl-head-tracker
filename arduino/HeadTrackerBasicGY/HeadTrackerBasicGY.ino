@@ -38,8 +38,11 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 #define oneTo14 8191
 #define qCalAddr 0 // EEPROM qCal address
 #define debounceDelay 50
+
+
 #define MODE_SERIAL
 //#define MODE_MIDI
+
 
 volatile unsigned long lastChangeTime, lastPressTime, lastReleaseTime = 0;
 volatile bool buttonState = 1;
@@ -186,7 +189,7 @@ void loop() {
     digitalWrite(LED, HIGH);
     // reset so we can continue cleanly
     mpu.resetFIFO();
-    Serial.println(F("FIFO overflow!"));
+    //Serial.println(F("FIFO overflow!"));
 
     // otherwise, check for DMP data ready interrupt (this should happen frequently)
   } else if (mpuIntStatus & 0x02) {
@@ -220,10 +223,20 @@ void loop() {
 
  // ============== SEND MIDI ROUTINE ===========================
     if (digitalRead(quatSwitch) == LOW) { //send quaternion data
+    
+    #ifdef MODE_MIDI  
       newW = (uint16_t)(oneTo14 * (quat.w + 1));
       newX = (uint16_t)(oneTo14 * (quat.x + 1));
       newY = (uint16_t)(oneTo14 * (quat.y + 1));
       newZ = (uint16_t)(oneTo14 * (quat.z + 1));
+    #endif
+
+    #ifdef MODE_SERIAL
+      newW = (uint16_t)(1000 * (quat.w + 1));
+      newX = (uint16_t)(1000 * (quat.x + 1));
+      newY = (uint16_t)(1000 * (quat.y + 1));
+      newZ = (uint16_t)(1000 * (quat.z + 1));
+    #endif
       
     #ifdef MODE_SERIAL
     if (newW != lastW || newX != lastX || newY != lastY || newZ != lastZ ) {
@@ -240,20 +253,20 @@ void loop() {
     
     #ifdef MODE_MIDI
     if (newW != lastW) {  
-      MIDI.sendControlChange(48, newZ & 0x7F,  1);
-      MIDI.sendControlChange(16, (newZ >> 7) & 0x7F, 1);
+      MIDI.sendControlChange(48, newW & 0x7F,  1);
+      MIDI.sendControlChange(16, (newW >> 7) & 0x7F, 1);
     }
-    if (newX != lastY) {  
-      MIDI.sendControlChange(49, newZ & 0x7F,  1);
-      MIDI.sendControlChange(17, (newZ >> 7) & 0x7F, 1);
+    if (newX != lastX) {  
+      MIDI.sendControlChange(49, newX & 0x7F,  1);
+      MIDI.sendControlChange(17, (newX >> 7) & 0x7F, 1);
     }
     if (newY != lastY) {
       MIDI.sendControlChange(50, newY & 0x7F, 1);
       MIDI.sendControlChange(18, (newY >> 7) & 0x7F, 1);  
     }
     if (newZ != lastZ) {
-      MIDI.sendControlChange(51, newX & 0x7F, 1);
-      MIDI.sendControlChange(19, (newX >> 7) & 0x7F, 1);
+      MIDI.sendControlChange(51, newZ & 0x7F, 1);
+      MIDI.sendControlChange(19, (newZ >> 7) & 0x7F, 1);
     }
     #endif
 
