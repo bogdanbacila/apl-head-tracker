@@ -31,8 +31,8 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 // Pins and Settings
 #define LED 13
 #define button 3 // <-- should be an interrupt pin
-#define invSwitch 4
-#define quatSwitch 5
+#define invSwitch 4       //switch #2 on tracker
+#define quatSwitch 5      //switch #1 on tracker
 #define pi 3.1415926536
 #define radTo14 2607.594587617613379
 #define oneTo14 8191
@@ -58,7 +58,6 @@ uint16_t lastY = 63;
 uint16_t newY = 63;
 uint16_t lastZ = 63;
 uint16_t newZ = 63;
-
 
 // MPU control/status vars
 MPU6050 mpu;
@@ -97,7 +96,7 @@ void setup() {
 
   
   #ifdef MODE_SERIAL
-  Serial.begin(115200);
+  Serial.begin(115200, SERIAL_8E1);
   #endif
 
   #ifdef MODE_MIDI
@@ -240,14 +239,9 @@ void loop() {
       
     #ifdef MODE_SERIAL
     if (newW != lastW || newX != lastX || newY != lastY || newZ != lastZ ) {
-      Serial.print(newW); 
-      Serial.print(" ");
-      Serial.print(newX); 
-      Serial.print(" ");
-      Serial.print(newY);
-      Serial.print(" ");
-      Serial.print(newZ);
-      Serial.println();
+      
+      sendQuaternion(newW, newX, newY, newZ);
+      
     }
     #endif
     
@@ -285,12 +279,9 @@ void loop() {
     
     #ifdef MODE_SERIAL
     if (newZ != lastZ || newY != lastY || newX != lastX ) {
-      Serial.print(newZ); 
-      Serial.print(" ");
-      Serial.print(newY);
-      Serial.print(" ");
-      Serial.print(newX);
-      Serial.println();
+      
+      sendYPR(newZ, newY, newX);
+      
     }
     #endif
     
@@ -467,4 +458,29 @@ void quat2ypr(float *ypr, Quaternion *q) {
   t0 = 2.0 * (q->w * q->x + q->y * q->z);
   t1 = 1.0 - 2.0 * (q->x * q->x + ysqr);
   ypr[2] = atan2(t0, t1);
+}
+
+void sendQuaternion(uint16_t qW, uint16_t qX, uint16_t qY, uint16_t qZ){
+
+
+  Serial.print(qW);
+  Serial.print(' ');
+  Serial.print(qX);
+  Serial.print(' ');
+  Serial.print(qY);
+  Serial.print(' ');
+  Serial.print(qZ);
+  Serial.print('\n');
+
+}
+
+void sendYPR(uint16_t yaw, uint16_t pitch, uint16_t roll){
+
+  Serial.print(yaw);
+  Serial.print(' ');
+  Serial.print(pitch);
+  Serial.print(' ');
+  Serial.print(roll);
+  Serial.print('\n');
+
 }
