@@ -1,8 +1,9 @@
 /*
-    MrHeadTracker Switchable based on the GY-521/MPU6050 sensor
-
-    Copyright (C) 2016-2017  Michael Romanov, Daniel Rudrich
-
+    APL head tracker - a basic inexpensive head tracker based on the GY-521/MPU6050 sensor
+    
+    APL head tracker is based on MrHeadTracker Switchable (Copyright (C) 2016-2017  Michael Romanov, Daniel Rudrich)
+    
+    
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -39,6 +40,9 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 #define qCalAddr 0 // EEPROM qCal address
 #define debounceDelay 50
 
+//APL head tracker is optimised to function with serial communication
+//However, the MIDI functionality of the original MrHeadTracker is still preserved
+//This can be switched on by uncommenting the MODE_MIDI flag and commenting MODE_SERIAL
 
 #define MODE_SERIAL
 //#define MODE_MIDI
@@ -223,29 +227,28 @@ void loop() {
  // ============== SEND MIDI ROUTINE ===========================
     if (digitalRead(quatSwitch) == LOW) { //send quaternion data
     
-    #ifdef MODE_MIDI  
-      newW = (uint16_t)(oneTo14 * (quat.w + 1));
-      newX = (uint16_t)(oneTo14 * (quat.x + 1));
-      newY = (uint16_t)(oneTo14 * (quat.y + 1));
-      newZ = (uint16_t)(oneTo14 * (quat.z + 1));
-    #endif
+    #ifdef MODE_SERIAL
+    
+    newW = (uint16_t)(1000 * (quat.w + 1));
+    newX = (uint16_t)(1000 * (quat.x + 1));
+    newY = (uint16_t)(1000 * (quat.y + 1));
+    newZ = (uint16_t)(1000 * (quat.z + 1));
 
-    #ifdef MODE_SERIAL
-      newW = (uint16_t)(1000 * (quat.w + 1));
-      newX = (uint16_t)(1000 * (quat.x + 1));
-      newY = (uint16_t)(1000 * (quat.y + 1));
-      newZ = (uint16_t)(1000 * (quat.z + 1));
-    #endif
-      
-    #ifdef MODE_SERIAL
     if (newW != lastW || newX != lastX || newY != lastY || newZ != lastZ ) {
-      
+    
       sendQuaternion(newW, newX, newY, newZ);
-      
+    
     }
     #endif
+
     
     #ifdef MODE_MIDI
+
+    newW = (uint16_t)(oneTo14 * (quat.w + 1));
+    newX = (uint16_t)(oneTo14 * (quat.x + 1));
+    newY = (uint16_t)(oneTo14 * (quat.y + 1));
+    newZ = (uint16_t)(oneTo14 * (quat.z + 1));
+    
     if (newW != lastW) {  
       MIDI.sendControlChange(48, newW & 0x7F,  1);
       MIDI.sendControlChange(16, (newW >> 7) & 0x7F, 1);
