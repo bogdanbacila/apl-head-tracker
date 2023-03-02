@@ -3,7 +3,6 @@
     
     APL head tracker is based on MrHeadTracker Switchable (Copyright (C) 2016-2017  Michael Romanov, Daniel Rudrich)
     
-    
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -19,10 +18,9 @@
 */
 
 
-#include <MIDI.h>
 #include <EEPROM.h>
 #include <Wire.h>
-#include <I2Cdev.h>
+#include <MIDI.h>
 #include <MPU6050_6Axis_MotionApps20.h>
 #include "utility/imumaths.h"
 
