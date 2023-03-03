@@ -114,14 +114,14 @@ Next, clip the feet to the bottom of the enclosure. Make sure that the orientati
 |-|-|
 |![](/img/assembly/IMG20230302120253.jpg)|![](/img/assembly/IMG20230302120305.jpg)
 
-### **Congratulations!** You now have new head tracker! 
+### **Congratulations!** You now have a new head tracker! 
 
 | | |
 |-|-|
 |![](/img/assembly/IMG20230302120315.jpg)|![](/img/assembly/IMG20230302120328.jpg)
 |![](/img/assembly/IMG20230302120356.jpg)|![](/img/assembly/IMG20230302120457.jpg)
 
-The tracke can be easily clipped to AKG-style headbands, directly on the wire frames. Alternatively, the tracker can also be mounted to a wide range of other headphones, by using an elastic hair band as shown below. 
+The tracker can be easily clipped to AKG-style headbands, directly on the wire frames. Alternatively, the tracker can also be mounted to a wide range of other headphones, by using an elastic hairband as shown below. 
 
 | | |
 |-|-|
