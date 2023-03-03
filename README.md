@@ -157,6 +157,10 @@ Upload [`apl-head-tracker.ino`](arduino/apl-head-tracker/apl-head-tracker.ino) t
 
 >  You can also verify if the tracker works properly by opening the 'Serial Monitor' (magnifying glass icon in the top-right corner). After the initial calibration (described below) four numbers will show on the screen according to the `w x y z` values (if quaternion is selected) or `yaw pitch roll` (if `ypr` is selected)
 
+Once the tracker is initialized and calibrated to your desired frontal position, the rotation axes are as shown in the following diagram. 
+
+![](img/tracker-axes.png)
+
 ## Calibrating the head tracker
 
 The APL head tracker uses the same calibration method as [MrHeadTracker](https://git.iem.at/DIY/MrHeadTracker). You can mount the tracker in any position or orientation and follow the next steps:
