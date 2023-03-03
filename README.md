@@ -88,14 +88,14 @@ Solder the PCB shield to the **top** of Arduino, making sure to match the pins o
 |-|-|
 |![](/img/assembly/IMG20230302115559.jpg)|![](/img/assembly/IMG20230302115631.jpg)
 
-The electronic part of the head tracker is now finished, and you can start using it after flashing the firmware.
-
 Now you can set the micro switches as desired: 
 
 - Switch No.1 changes between Quaternions and Yaw-Pitch-Roll output
 - Switch No.2 changes between normal and inverse 
 
-However, if you own a 3D printer, you can also print an enclosure from the [STLs](/enclosure/) provided:
+To ensure compatibility with the APL OSC bridge, please set the switches as seen in the pictures above: switch no.1 set to on and switch no.2 set to off.
+
+The electronic part of the head tracker is now finished, and you can start using it after flashing the firmware. However, if you own a 3D printer, you can also print an enclosure from the [STLs](/enclosure/) provided:
 
 ### **Step 5:**
 
